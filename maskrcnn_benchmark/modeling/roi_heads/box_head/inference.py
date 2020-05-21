@@ -122,9 +122,11 @@ class PostProcessor(nn.Module):
         for j in range(1, num_classes):
             inds = inds_all[:, j].nonzero().squeeze(1)
             scores_j = scores[inds, j]
+            all_probs = scores[inds, :]
             boxes_j = boxes[inds, j * 4 : (j + 1) * 4]
             boxlist_for_class = BoxList(boxes_j, boxlist.size, mode="xyxy")
             boxlist_for_class.add_field("scores", scores_j)
+            boxlist_for_class.add_field("all_probs", all_probs)
             boxlist_for_class = boxlist_nms(
                 boxlist_for_class, self.nms
             )
