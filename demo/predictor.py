@@ -221,6 +221,50 @@ class COCODemo(object):
 
         return result
 
+    def output_predictions(self, image):
+        """
+                Arguments:
+                    image (np.ndarray): an image as returned by OpenCV
+
+                Returns:
+                    prediction (BoxList): the detected objects. Additional information
+                        of the detection properties can be found in the fields of
+                        the BoxList via `prediction.fields()`
+                """
+        predictions = self.compute_prediction(image)
+        top_predictions = self.select_top_predictions(predictions)
+
+        all_probs = top_predictions.get_field('all_probs')
+        box = top_predictions.bbox.cpu().numpy()
+        class_id = top_predictions.get_field('labels').cpu().numpy()
+        # to ensure mask is in the size of [N, H, W]
+        mask = top_predictions.get_field('mask').squeeze(dim=1)
+        if len(mask.shape) == 2:
+            mask = mask.unsqueeze(dim=0)
+        mask = mask.cpu().numpy()
+        prob = top_predictions.get_field('scores').cpu().numpy()
+
+        # test all_probs
+        # print("verify all probs")
+        # verify = all_probs.max(dim=1)
+        # print("compare labels:", verify[1], " || ", class_id)
+        # print("compare scores:", verify[0], " || ", prob)
+
+        all_probs = all_probs.cpu().numpy()
+
+        # print('all_probs.shape:', all_probs.shape)
+        # print('box.shape:', box.shape)
+        # print('class_id.shape:', class_id.shape)
+        # print('mask.shape:', mask.shape)
+        # print('prob.shape:', prob.shape)
+
+        visualization = image.copy()
+        visualization = self.overlay_boxes(visualization, top_predictions)
+        visualization = self.overlay_mask(visualization, top_predictions)
+        visualization = self.overlay_class_names(visualization, top_predictions)
+
+        return all_probs, box, class_id, mask, prob, visualization
+
     def compute_prediction(self, original_image):
         """
         Arguments:
