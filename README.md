@@ -1,3 +1,11 @@
+# MaskRCNN for Mid-Fusion
+
+This repository contains a modified mask rcnn system to generate segmentation masks, labels, and semantic probabilities for MID-Fusion.
+
+
+
+## Usage
+
 * Installation
 
 ```
@@ -32,7 +40,7 @@ to activate the environment
 
 --------
 
-# Original Readme from maskrcnn-benchmark (Faster R-CNN and Mask R-CNN in PyTorch 1.0)
+## The Original Readme from maskrcnn-benchmark (Faster R-CNN and Mask R-CNN in PyTorch 1.0)
 
 This project aims at providing the necessary building blocks for easily
 creating detection and segmentation models using PyTorch 1.0.
