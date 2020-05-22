@@ -1,3 +1,35 @@
+* Installation
+
+```
+Make install
+```
+
+After that, type
+
+```
+source .anaconda3/bin/activate
+```
+
+to activate the environment
+
+* usage, given an input video to generate Mask RCNN outputs for MID-Fusion
+
+  ```
+  ./process_video.sh #input_video
+  ```
+
+* Uninstall
+
+  ```
+  Make clean
+  ```
+
+  
+
+
+
+
+
 --------
 
 # Original Readme from maskrcnn-benchmark (Faster R-CNN and Mask R-CNN in PyTorch 1.0)
